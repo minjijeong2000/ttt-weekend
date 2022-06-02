@@ -41,14 +41,14 @@ init()
 
   // a) Create a function called `render`.
 function render () {
-    board.forEach(function(square, index) { 
-        if (square.value === null) {
+    board.forEach(function(index) { 
+        if (board[index] === null) {
             squareEls[index].textContent = ''
         }
-        else if (square[index] === 1) {
+        else if (board[index] === 1) {
             squareEls[index].textContent = 'X'
         }
-        else {
+        else if (board[index] === -1) {
             squareEls[index].textContent = 'O'
         }
     
@@ -116,7 +116,7 @@ squareEls.addEventListener('click', handleClick)
   // c) Obtain the index of the square that was clicked by "extracting" the 
   //    index from an `id` assigned to the element in the HTML. Assign this to 
   //    a constant called `sqIdx`.
-const sqIdx = 
+
   // d) If the `board` has a value at the `sqIdx`, immediately `return` because 
   //    that square is already taken. Also, if `winner` is not `null`
   //    immediately `return` because the game is over.
