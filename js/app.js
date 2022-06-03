@@ -93,16 +93,7 @@ function render () {
 
   // a) In a constant called `winningCombos` define the eight possible winning 
   //    combinations as an array of arrays.
-const winningCombos = function combo(board, check) {
-    return (board[1] == check && board[2] == check && board[3] == check) ||
-    (board[4] == check && board[5] == check && board[6] == check) ||
-    (board[7] == check && board[8] == check && board[9] == check) ||
-    (board[1] == check && board[5] == check && board[9] == check) ||
-    (board[3] == check && board[5] == check && board[7] == check) ||
-    (board[1] == check && board[4] == check && board[7] == check) ||
-    (board[2] == check && board[5] == check && board[8] == check) ||
-    (board[3] == check && board[6] == check && board[9] == check)
-}
+const winningCombos = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
 
 // Step 6 - Handle a player clicking a square with a `handleClick` function
 
