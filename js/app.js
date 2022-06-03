@@ -108,6 +108,17 @@ const winningCombos = function combo(board, check) {
 
   // a) Create a function called `handleClick`. It will have an `evt` parameter.
 function handleClick(evt) {
+    const sqIdx = parseInt(evt.target.id.slice(2))
+    if (board[sqIdx] !== null) {
+        return
+    }
+    if (winner !== null) {
+        return
+    }
+    board[sqIdx] = turn
+    turn = turn * -1
+    getWinner()
+    render()
 
 }
   // b) Attach an event listener to the game board. On the `'click'` event, it 
@@ -116,7 +127,6 @@ squareEls.addEventListener('click', handleClick)
   // c) Obtain the index of the square that was clicked by "extracting" the 
   //    index from an `id` assigned to the element in the HTML. Assign this to 
   //    a constant called `sqIdx`.
-
   // d) If the `board` has a value at the `sqIdx`, immediately `return` because 
   //    that square is already taken. Also, if `winner` is not `null`
   //    immediately `return` because the game is over.
@@ -136,7 +146,19 @@ squareEls.addEventListener('click', handleClick)
 // Step 7 - Build the `getWinner` function
 
   // a) Create a function called `getWinner`
-
+function getWinner() {
+    winningCombos.forEach(function(combination) {
+        if (Math.abs(board[combination[0]] + board[combination[1]] + board[combination[2]] === 3)) {
+            winner = turn
+        }
+        else if (board.every[combination] !== null && 3) {
+            winner = 'T'
+        }
+        else {
+            return null
+        }
+    })
+}
   /* 
    * There are two methods you can use to find out if there is a winner.
    *
