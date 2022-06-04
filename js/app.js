@@ -2,35 +2,19 @@
 
   // a) Use a variable named `board` to represent the state of the squares on
   //    the board.
-let board
   // b) Use a variable named `turn` to track whose turn it is.
-let turn
   // c) Use a variable named `winner` to represent if anyone has won yet, or if 
   //    a tie has occurred.
-let winner
 // Step 2 - Store cached element references
 
   // a) In a constant called `squareEls`, store the nine elements representing 
   //    the squares on the page.
-const squareEls = document.querySelectorAll(".board")
   // b) In a constant called `messageEl`, store the element that displays the 
   //    game's status on the page.
-const messageEl = document.querySelector("#message")
-
 // Step 3 - Upon loading, the game state should be initialized, and a function 
 //          should be called to render this game state
-
-  // a) Create a function called `init`.
-function init()
-{
-     board = [null, null, null, null, null, null, null, null, null]
-     turn = 1
-     winner = null
-     render()
-
- }  
+  // a) Create a function called `init`. 
  // b) Call this `init` function when the app loads.
-init()
   // c) Set the `board` variable to an array containing nine `null`s to 
   //    represent empty squares.
   // d) Set the `turn` to `1` - which will represent player X.
@@ -40,42 +24,6 @@ init()
 // Step 4 - The state of the game should be rendered to the user
 
   // a) Create a function called `render`.
-function render () {
-    board.forEach(function(index) { 
-        if (board[index] === null) {
-            squareEls[index].textContent = ''
-        }
-        else if (board[index] === 1) {
-            squareEls[index].textContent = 'X'
-        }
-        else if (board[index] === -1) {
-            squareEls[index].textContent = 'O'
-        }
-    
-    })
-
-    if (winner === null) {
-        if (turn === true) {
-            messageEl.textContent = "It is X's turn now!"
-        } else {
-            messageEl.textContent = "It is O's turn now!"
-    }
-}
-
-    else if (winner === 'T') {
-        messageEl.textContent = "It is a tie! Try again!"
-    }
-    
-    else {
-        if (winner === 1) {
-            messageEl.textContent = "Player X won!"
-        } else {
-            messageEl.textContent = "Player O won!"
-        }
-    }
-
-}
-
   // b) Loop over `board` and for each element:
   //    - Use the current index of the iteration to access the corresponding 
   //      square in the `squareEls` array.
@@ -90,31 +38,12 @@ function render () {
     
 
 // Step 5 - Define the required constants
-
   // a) In a constant called `winningCombos` define the eight possible winning 
   //    combinations as an array of arrays.
-const winningCombos = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
-
 // Step 6 - Handle a player clicking a square with a `handleClick` function
-
   // a) Create a function called `handleClick`. It will have an `evt` parameter.
-function handleClick(evt) {
-    const sqIdx = parseInt(evt.target.id.slice(2))
-    if (board[sqIdx] !== null) {
-        return
-    }
-    if (winner !== null) {
-        return
-    }
-    board[sqIdx] = turn
-    turn = turn * -1
-    getWinner()
-    render()
-
-}
   // b) Attach an event listener to the game board. On the `'click'` event, it 
   //    should call the `handleClick` function you created in 6a.
-squareEls.addEventListener('click', handleClick)
   // c) Obtain the index of the square that was clicked by "extracting" the 
   //    index from an `id` assigned to the element in the HTML. Assign this to 
   //    a constant called `sqIdx`.
@@ -137,19 +66,6 @@ squareEls.addEventListener('click', handleClick)
 // Step 7 - Build the `getWinner` function
 
   // a) Create a function called `getWinner`
-function getWinner() {
-    winningCombos.forEach(function(combination) {
-        if (Math.abs(board[combination[0]] + board[combination[1]] + board[combination[2]] === 3)) {
-            winner = turn
-        }
-        else if (board.every[combination] !== null && 3) {
-            winner = 'T'
-        }
-        else {
-            return null
-        }
-    })
-}
   /* 
    * There are two methods you can use to find out if there is a winner.
    *
@@ -188,27 +104,91 @@ function getWinner() {
   // a) Add a reset button to the HTML document.
 
   // b) Store the new reset button element in a constant named `resetBtnEl`.
-const resetBtnEl = document.querySelector("#reset-btn")
   // c) Attach an event listener to the `resetBtnEl`. On the `'click'` event it 
   //    should call the `init` function you created in 3.
-  resetBtnEl.addEventListener('click', function(evt){
+  /*-------------------------------- Constants --------------------------------*/
+  const winningCombos = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
+  /*---------------------------- Variables (state) ----------------------------*/
+  let board
+  let turn
+  let winner
+  /*------------------------ Cached Element References ------------------------*/
+  const squareEls = document.querySelectorAll(".square")
+  const messageEl = document.querySelector("#message")
+  const resetBtnEl = document.querySelector("#reset-btn")
+  /*----------------------------- Event Listeners -----------------------------*/
+  squareEls.forEach(function(square) {
+      square.addEventListener('click', handleClick)
+    })
+    resetBtnEl.addEventListener('click', init)
+    
+    /*-------------------------------- Functions --------------------------------*/
+function init()
+{
+     board = [null, null, null, null, null, null, null, null, null]
+     turn = 1
+     winner = null
+     render()
 
-  })
-/*-------------------------------- Constants --------------------------------*/
+ } 
+ init()
 
+ function render () {
+    board.forEach(function(square, index) { 
+        if (square === null) {
+            squareEls[index].textContent = ''
+        }
+        else if (square === 1) {
+            squareEls[index].textContent = 'X'
+        }
+        else if (square === -1) {
+            squareEls[index].textContent = 'O'
+        }
+        console.log(squareEls[index])
+    
+    })
 
+    if (winner === null) {
+        messageEl.textContent = `Player ${turn}'s turn!`
+    }
+    else if (winner === 'T') {
+        messageEl.textContent = "It is a tie! Try again!"
+    }
+    else if (winner === 1) {
+        messageEl.textContent = `Player ${winner} has won!`
+    }
+    else if (winner === -1) {
+        messageEl.textContent = `Player ${winner} has won!`
+    }
+    console.log(squareEls)
 
-/*---------------------------- Variables (state) ----------------------------*/
+}
 
+function handleClick(evt) {
+    const sqIdx = parseInt(evt.target.id)
+    if (board === null) {
+        return
+    }
+    else if (winner !== null) {
+        return
+    }
+    board[sqIdx] = turn
+    turn = turn * -1
+    winner = getWinner()
+    render()
 
+}
 
-/*------------------------ Cached Element References ------------------------*/
-
-
-
-/*----------------------------- Event Listeners -----------------------------*/
-
-
-
-/*-------------------------------- Functions --------------------------------*/
-
+function getWinner() {
+    winningCombos.forEach(function(combination) {
+        if (Math.abs(board[combination[0]] + board[combination[1]] + board[combination[2]] === 3)) {
+            return turn
+        }
+        else if (!board.includes(null)) {
+            return 'T'
+        }
+        else {
+            return null
+        }
+    })
+}
