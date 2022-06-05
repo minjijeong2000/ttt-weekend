@@ -114,6 +114,7 @@
   let winner
   /*------------------------ Cached Element References ------------------------*/
   const squareEls = document.querySelectorAll(".square")
+  const tttBoard = document.querySelector(".board")
   const messageEl = document.querySelector("#message")
   const resetBtnEl = document.querySelector("#reset-btn")
   /*----------------------------- Event Listeners -----------------------------*/
@@ -123,6 +124,7 @@
     resetBtnEl.addEventListener('click', init)
     
     /*-------------------------------- Functions --------------------------------*/
+init()
 function init()
 {
      board = [null, null, null, null, null, null, null, null, null]
@@ -131,7 +133,6 @@ function init()
      render()
 
  } 
- init()
 
  function render () {
     board.forEach(function(square, index) { 
@@ -149,23 +150,29 @@ function init()
     })
 
     if (winner === null) {
-        messageEl.textContent = `Player ${turn}'s turn!`
+        if (winner == 1) {
+            messageEl.textContent = `Player X's turn!`
+        }
+        else {
+            messageEl.textContent = `Player O's turn!`
+
+        }
     }
     else if (winner === 'T') {
         messageEl.textContent = "It is a tie! Try again!"
     }
     else if (winner === 1) {
-        messageEl.textContent = `Player ${winner} has won!`
+        messageEl.textContent = `Player X has won!`
     }
     else if (winner === -1) {
-        messageEl.textContent = `Player ${winner} has won!`
+        messageEl.textContent = `Player O has won!`
     }
     console.log(squareEls)
 
 }
 
 function handleClick(evt) {
-    const sqIdx = parseInt(evt.target.id)
+    const sqIdx = parseInt(evt.target.id.slice(2))
     if (board === null) {
         return
     }
@@ -180,15 +187,19 @@ function handleClick(evt) {
 }
 
 function getWinner() {
-    winningCombos.forEach(function(combination) {
-        if (Math.abs(board[combination[0]] + board[combination[1]] + board[combination[2]] === 3)) {
-            return turn
+    for(let i = 0; i < winningCombos.length; i++) {
+        if (board[winningCombos[i][0]] + board[winningCombos[i][1]] + board[winningCombos[i][2]] ===3) {
+            return 1
         }
-        else if (!board.includes(null)) {
+        else if (board[winningCombos[i][0]] + board[winningCombos[i][1]] + board[winningCombos[i][2]] ===-3) {
+            return -1
+        }
+    }
+        if (!board.includes(null)) {
             return 'T'
         }
         else {
             return null
         }
-    })
-}
+    }
+
